@@ -1,0 +1,57 @@
+name: Movie Mood Matcher CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Flake8
+        run: flake8 --max-line-length=120 --exclude=venv .
+
+      - name: Run tests
+        run: pytest -v
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            --build-arg GIT_SHA=${{ github.sha }} \
+            -t movie-mood-matcher .
+
+      - name: Run Docker container
+        run: |
+          docker run -d \
+            -p 5000:5000 \
+            --name movie-mood-matcher-container \
+            movie-mood-matcher
+
+      - name: Wait for application
+        run: sleep 5
+
+      - name: Health check
+        run: curl -f http://localhost:5000/health
