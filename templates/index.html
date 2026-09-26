@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Movie Mood Matcher</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>🎬 Movie Mood Matcher</h1>
+    <p>Find the perfect movie for your current mood!</p>
+</header>
+
+<section class="mood-section">
+
+    <h2>How are you feeling today?</h2>
+
+    <div class="moods">
+
+        <a href="/?mood=Happy">😊 Happy</a>
+
+        <a href="/?mood=Sad">😢 Sad</a>
+
+        <a href="/?mood=Romantic">❤️ Romantic</a>
+
+        <a href="/?mood=Excited">😎 Excited</a>
+
+        <a href="/?mood=Relaxed">😌 Relaxed</a>
+
+    </div>
+
+</section>
+
+
+<section class="recommendations">
+
+    {% if selected_mood %}
+        <h2>Movies for {{ selected_mood }} Mood</h2>
+    {% else %}
+        <h2>All Recommended Movies</h2>
+    {% endif %}
+
+    <div class="movie-container">
+
+        {% if movies %}
+
+            {% for movie in movies %}
+
+            <div class="movie-card">
+
+                <h3>🎬 {{ movie.title }}</h3>
+
+                <p>
+                    <strong>Genre:</strong>
+                    {{ movie.genre }}
+                </p>
+
+                <p>
+                    <strong>Mood:</strong>
+                    {{ movie.mood }}
+                </p>
+
+                <p>
+                    ⭐ Rating: {{ movie.rating }}/10
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>No movies found for this mood.</p>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<section class="add-section">
+
+    <h2>➕ Add a Movie</h2>
+
+    <form method="POST" action="/add">
+
+        <input
+            type="text"
+            name="title"
+            placeholder="Movie title"
+            required
+        >
+
+        <input
+            type="text"
+            name="genre"
+            placeholder="Genre"
+            required
+        >
+
+        <select name="mood" required>
+
+            <option value="">Select Mood</option>
+            <option value="Happy">Happy</option>
+            <option value="Sad">Sad</option>
+            <option value="Romantic">Romantic</option>
+            <option value="Excited">Excited</option>
+            <option value="Relaxed">Relaxed</option>
+
+        </select>
+
+        <input
+            type="number"
+            name="rating"
+            placeholder="Rating"
+            min="0"
+            max="10"
+            step="0.1"
+            required
+        >
+
+        <button type="submit">
+            Add Movie
+        </button>
+
+    </form>
+
+</section>
+
+
+<footer>
+    Movie Mood Matcher |
+    Running Commit: {{ commit }}
+</footer>
+
+</body>
+</html>

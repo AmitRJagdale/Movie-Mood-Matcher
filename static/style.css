@@ -1,0 +1,87 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #222;
+}
+
+header {
+    text-align: center;
+    padding: 40px 20px;
+    background: #222;
+    color: white;
+}
+
+header h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.mood-section,
+.recommendations,
+.add-section {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+}
+
+.moods {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.moods a {
+    text-decoration: none;
+    padding: 15px 25px;
+    border-radius: 10px;
+    background: #eeeeee;
+    color: #222;
+    font-weight: bold;
+}
+
+.movie-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.movie-card {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+form {
+    display: grid;
+    gap: 15px;
+}
+
+input,
+select,
+button {
+    padding: 12px;
+    font-size: 16px;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background: #222;
+    color: white;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    margin-top: 30px;
+    background: #222;
+    color: white;
+}
