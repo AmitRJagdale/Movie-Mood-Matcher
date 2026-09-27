@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,38 +14,145 @@
 <body>
 
 <header>
-    <h1>🎬 Movie Mood Matcher</h1>
+    <h1>Movie Mood Matcher</h1>
     <p>Find the perfect movie for your current mood!</p>
 </header>
 
-<section class="mood-section">
 
-    <h2>How are you feeling today?</h2>
+<!-- FILTER SECTION -->
+<section class="filter-section">
 
-    <div class="moods">
+    <h2>Find Your Movie</h2>
 
-        <a href="/?mood=Happy">😊 Happy</a>
+    <form method="GET" action="/">
 
-        <a href="/?mood=Sad">😢 Sad</a>
+        <label for="mood">Mood</label>
 
-        <a href="/?mood=Romantic">❤️ Romantic</a>
+        <select name="mood" id="mood">
 
-        <a href="/?mood=Excited">😎 Excited</a>
+            <option value="">All Moods</option>
 
-        <a href="/?mood=Relaxed">😌 Relaxed</a>
+            <option value="Happy"
+                {% if selected_mood == "Happy" %}selected{% endif %}>
+                Happy
+            </option>
 
-    </div>
+            <option value="Sad"
+                {% if selected_mood == "Sad" %}selected{% endif %}>
+                Sad
+            </option>
+
+            <option value="Romantic"
+                {% if selected_mood == "Romantic" %}selected{% endif %}>
+                Romantic
+            </option>
+
+            <option value="Excited"
+                {% if selected_mood == "Excited" %}selected{% endif %}>
+                Excited
+            </option>
+
+            <option value="Relaxed"
+                {% if selected_mood == "Relaxed" %}selected{% endif %}>
+                Relaxed
+            </option>
+
+        </select>
+
+
+        <label for="genre">Genre</label>
+
+        <select name="genre" id="genre">
+
+            <option value="">All Genres</option>
+
+            <option value="Comedy"
+                {% if selected_genre == "Comedy" %}selected{% endif %}>
+                Comedy
+            </option>
+
+            <option value="Drama"
+                {% if selected_genre == "Drama" %}selected{% endif %}>
+                Drama
+            </option>
+
+            <option value="Sci-Fi"
+                {% if selected_genre == "Sci-Fi" %}selected{% endif %}>
+                Sci-Fi
+            </option>
+
+            <option value="Romance"
+                {% if selected_genre == "Romance" %}selected{% endif %}>
+                Romance
+            </option>
+
+            <option value="Action"
+                {% if selected_genre == "Action" %}selected{% endif %}>
+                Action
+            </option>
+
+            <option value="Thriller"
+                {% if selected_genre == "Thriller" %}selected{% endif %}>
+                Thriller
+            </option>
+
+        </select>
+
+
+        <label for="language">Language</label>
+
+        <select name="language" id="language">
+
+            <option value="">All Languages</option>
+
+            <option value="Hindi"
+                {% if selected_language == "Hindi" %}selected{% endif %}>
+                Hindi
+            </option>
+
+            <option value="English"
+                {% if selected_language == "English" %}selected{% endif %}>
+                English
+            </option>
+
+            <option value="Marathi"
+                {% if selected_language == "Marathi" %}selected{% endif %}>
+                Marathi
+            </option>
+
+            <option value="Kannada"
+                {% if selected_language == "Kannada" %}selected{% endif %}>
+                Kannada
+            </option>
+
+            <option value="Malayalam"
+                {% if selected_language == "Malayalam" %}selected{% endif %}>
+                Malayalam
+            </option>
+
+        </select>
+
+
+        <button type="submit">Find Movies</button>
+
+    </form>
 
 </section>
 
 
+<!-- RECOMMENDATIONS -->
 <section class="recommendations">
 
-    {% if selected_mood %}
-        <h2>Movies for {{ selected_mood }} Mood</h2>
+    {% if selected_mood or selected_genre or selected_language %}
+
+        <h2>Matching Movies</h2>
+
     {% else %}
+
         <h2>All Recommended Movies</h2>
+
     {% endif %}
+
 
     <div class="movie-container">
 
@@ -54,11 +162,16 @@
 
             <div class="movie-card">
 
-                <h3>🎬 {{ movie.title }}</h3>
+                <h3>{{ movie.title }}</h3>
 
                 <p>
                     <strong>Genre:</strong>
                     {{ movie.genre }}
+                </p>
+
+                <p>
+                    <strong>Language:</strong>
+                    {{ movie.language }}
                 </p>
 
                 <p>
@@ -67,7 +180,8 @@
                 </p>
 
                 <p>
-                    ⭐ Rating: {{ movie.rating }}/10
+                    <strong>Rating:</strong>
+                    {{ movie.rating }}/10
                 </p>
 
             </div>
@@ -76,7 +190,7 @@
 
         {% else %}
 
-            <p>No movies found for this mood.</p>
+            <p>No movies found for the selected filters.</p>
 
         {% endif %}
 
@@ -85,29 +199,61 @@
 </section>
 
 
+<!-- ADD MOVIE -->
 <section class="add-section">
 
-    <h2>➕ Add a Movie</h2>
+    <h2>Add a New Movie</h2>
 
     <form method="POST" action="/add">
 
+        <label for="title">Movie Title</label>
+
         <input
             type="text"
+            id="title"
             name="title"
-            placeholder="Movie title"
+            placeholder="Enter movie title"
             required
         >
 
-        <input
-            type="text"
-            name="genre"
-            placeholder="Genre"
-            required
-        >
 
-        <select name="mood" required>
+        <label for="add-genre">Genre</label>
+
+        <select name="genre" id="add-genre" required>
+
+            <option value="">Select Genre</option>
+
+            <option value="Comedy">Comedy</option>
+            <option value="Drama">Drama</option>
+            <option value="Sci-Fi">Sci-Fi</option>
+            <option value="Romance">Romance</option>
+            <option value="Action">Action</option>
+            <option value="Thriller">Thriller</option>
+
+        </select>
+
+
+        <label for="add-language">Language</label>
+
+        <select name="language" id="add-language" required>
+
+            <option value="">Select Language</option>
+
+            <option value="Hindi">Hindi</option>
+            <option value="English">English</option>
+            <option value="Marathi">Marathi</option>
+            <option value="Kannada">Kannada</option>
+            <option value="Malayalam">Malayalam</option>
+
+        </select>
+
+
+        <label for="add-mood">Mood</label>
+
+        <select name="mood" id="add-mood" required>
 
             <option value="">Select Mood</option>
+
             <option value="Happy">Happy</option>
             <option value="Sad">Sad</option>
             <option value="Romantic">Romantic</option>
@@ -116,29 +262,42 @@
 
         </select>
 
+
+        <label for="rating">Rating</label>
+
         <input
             type="number"
+            id="rating"
             name="rating"
-            placeholder="Rating"
             min="0"
             max="10"
             step="0.1"
+            placeholder="Enter rating from 0 to 10"
             required
         >
 
-        <button type="submit">
-            Add Movie
-        </button>
+
+        <button type="submit">Add Movie</button>
 
     </form>
 
 </section>
 
 
+<!-- FOOTER -->
 <footer>
-    Movie Mood Matcher |
-    Running Commit: {{ commit }}
+
+    <p>
+        Movie Mood Matcher
+    </p>
+
+    <p>
+        Running Commit:
+        <strong>{{ commit }}</strong>
+    </p>
+
 </footer>
 
 </body>
+
 </html>
