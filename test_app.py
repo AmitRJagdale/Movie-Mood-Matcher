@@ -53,3 +53,13 @@ def test_invalid_movie():
     )
 
     assert response.status_code == 400
+
+
+def test_movie_filter():
+    response = client().get(
+        "/?mood=Happy&genre=Comedy&language=Hindi"
+    )
+
+    assert response.status_code == 200
+    assert b"3 Idiots" in response.data
+    assert b"Interstellar" not in response.data
