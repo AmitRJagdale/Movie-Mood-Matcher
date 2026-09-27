@@ -18,7 +18,9 @@ def test_movies_api():
     response = client().get("/api/movies")
 
     assert response.status_code == 200
-    assert isinstance(response.json, list)
+    assert "count" in response.json
+    assert "movies" in response.json
+    assert isinstance(response.json["movies"], list)
 
 
 def test_add_movie():
@@ -70,9 +72,9 @@ def test_movies_api_contains_required_fields():
     response = client().get("/api/movies")
 
     assert response.status_code == 200
-    assert len(response.json) > 0
+    assert len(response.json["movies"]) > 0
 
-    movie = response.json[0]
+    movie = response.json["movies"][0]
 
     assert "id" in movie
     assert "title" in movie
