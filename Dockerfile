@@ -9,10 +9,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 ARG GIT_SHA=local
-
 ENV GIT_SHA=$GIT_SHA
-ENV PORT=5000
 
-EXPOSE 5000
-
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-5000} app:app"]
