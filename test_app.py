@@ -63,3 +63,19 @@ def test_movie_filter():
     assert response.status_code == 200
     assert b"3 Idiots" in response.data
     assert b"Interstellar" not in response.data
+
+
+def test_movies_api_contains_required_fields():
+    response = client().get("/api/movies")
+
+    assert response.status_code == 200
+    assert len(response.json) > 0
+
+    movie = response.json[0]
+
+    assert "id" in movie
+    assert "title" in movie
+    assert "genre" in movie
+    assert "language" in movie
+    assert "mood" in movie
+    assert "rating" in movie
