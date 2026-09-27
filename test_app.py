@@ -80,3 +80,19 @@ def test_movies_api_contains_required_fields():
     assert "language" in movie
     assert "mood" in movie
     assert "rating" in movie
+
+
+def test_invalid_rating():
+    response = client().post(
+        "/add",
+        data={
+            "title": "Invalid Movie",
+            "genre": "Comedy",
+            "language": "Hindi",
+            "mood": "Happy",
+            "rating": "15"
+        }
+    )
+
+    assert response.status_code == 400
+    assert b"Rating must be between 0 and 10" in response.data
