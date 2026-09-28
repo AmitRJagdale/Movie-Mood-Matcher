@@ -140,7 +140,10 @@ def add_movie():
 
 @app.route("/api/movies")
 def api_movies():
-    return jsonify(movies)
+    return jsonify({
+        "count": len(movies),
+        "movies": movies
+    })
 
 
 @app.route("/health")
